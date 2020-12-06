@@ -1,29 +1,48 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Component} from "react";
 import axios from "axios";
 import "./App.css";
 
-const SearchBar = () => {
+class SearchBar extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            value: '',
+            recipesList: []
+        };
+        this.getRecipes = this.getRecipes.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
 
-    useEffect(() => {
-        getRecipes();
-    }, []);
+    handleChange(event) {
+        this.setState({value: event.target.value});
+        console.log(this.state.value);    
+    }
 
-    const getRecipes = async () => {
-        axios.get('http://localhost:9000/api').then(response => {
+    getRecipes = async () => {
+        axios.get(`http://localhost:9000/api/${this.state.value}`).then(response => {
             console.log(response.data.hits);
         })
     }
 
-    return (
-        <div>
-            <form className="search-form">
-                <input className="search-bar" type="text"/>
-                <button   type="submit">
-                    Search
-                </button>
-            </form>
-        </div>
+    handleSubmit(event) {
+        this.getRecipes();
+        event.preventDefault();
+    }
+
+    render() {
+        return (
+            <div>
+                <form className="search-form" onSubmit={this.handleSubmit}>
+                    <input className="search-bar" type="text" value={this.state.value} onChange={this.handleChange} />
+                    <button type="submit">
+                        Search
+                    </button>
+                </form>
+            </div>
     )
+    }
 }
 
 export default SearchBar;

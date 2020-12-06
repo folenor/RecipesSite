@@ -3,6 +3,7 @@ package com.course.project.courseproject.controller;
 import com.course.project.courseproject.model.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,9 +28,9 @@ public class APIController {
         this.Recipes = repo;
     }
 
-    @GetMapping
-    public String Test() throws IOException {
-        URL url = new URL(String.format("https://api.edamam.com/search?q=chicken&app_id=%s&app_key=%s",AppID, AppKey));
+    @GetMapping("{product}")
+    public String Test(@PathVariable("product") String product) throws IOException {
+        URL url = new URL(String.format("https://api.edamam.com/search?q=%s&app_id=%s&app_key=%s", product, AppID, AppKey));
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-Type", "application/json");
