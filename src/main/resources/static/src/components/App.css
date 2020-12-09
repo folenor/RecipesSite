@@ -1,7 +1,15 @@
+body{
+    margin: 0;
+}
 
+.App{
+    min-height: 100vh;
+    background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+}
 
 .Header{
     font-family: Lobster, monospace;
+    font-size: 20px;
     height: 30px;
     font-size: large;
     display: flex;
@@ -16,4 +24,16 @@
 .search-bar{
     width: 50%;
     padding: 10px;
+}
+.Button{
+    background: #f1a38d;
+    border: none;
+    padding: 10px 20px;
+    color: black;
+}
+
+.Recipes{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
