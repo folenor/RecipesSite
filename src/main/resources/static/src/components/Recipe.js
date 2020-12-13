@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import style from "./Recipe.module.css";
+import axios from "axios";
 
 const Recipe = (props) => {
+    const id = 0;
     return (
         <div className={style.Recipe}>
             <h1>{props.label}</h1>
@@ -18,8 +20,8 @@ const Recipe = (props) => {
                         Instructions
                     </button>
                 </form>
-                <form>
-                    <button className={style.AddButton}>
+                <form onSubmit={async (e) => {axios.post('http://localhost:9000/api/', {id: id, name: props.label,imageSource: props.image, foodEnergy: Math.trunc(props.calories)}).then(result => console.log(result)); e.preventDefault();}}>
+                    <button className={style.AddButton} type="submit">
                         Add to my menu
                     </button>
                 </form>

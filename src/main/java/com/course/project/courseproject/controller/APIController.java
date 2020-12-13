@@ -1,18 +1,19 @@
 package com.course.project.courseproject.controller;
 
+import com.course.project.courseproject.model.Recipe;
 import com.course.project.courseproject.model.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api")
@@ -20,15 +21,33 @@ public class APIController {
     private final RecipeRepository Recipes;
     final String AppID = "ae26ec97";
     final String AppKey = "ac9dd4d455e484d9ab5437b10b1b5c7c";
-
+    private final Map<Optional<Recipe>, Double> selectedRecipes = new HashMap<Optional<Recipe>, Double>();
 
     @Autowired
     public APIController(RecipeRepository repo){
         this.Recipes = repo;
     }
+    @GetMapping
+    public List<Recipe> getSavedRecipes(){
+        return Recipes.findAll();
+    }
+
+    @PostMapping
+    public Recipe saveRecipe(@RequestBody Recipe recipe){
+        return Recipes.save(recipe);
+    }
+    @PostMapping("{id}/{grams}")
+    public Optional<Recipe> acceptGrams(@PathVariable("id") Long id, @PathVariable("grams") Double grams){
+        System.out.println(grams);
+        selectedRecipes.put(Recipes.findById(id), grams);
+        return Recipes.findById(id);
+    }
 
     @GetMapping("{product}")
-    public String Test(@PathVariable("product") String product) throws IOException {
+    public String searchRecipes(@PathVariable("product") String product) throws IOException {
+        System.out.println(product);
+        product = product.replace(" ", "+");
+        System.out.println(product);
         URL url = new URL(String.format("https://api.edamam.com/search?q=%s&app_id=%s&app_key=%s", product, AppID, AppKey));
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
