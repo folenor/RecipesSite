@@ -1,18 +1,22 @@
-import React, {useEffect, useState, Component} from "react";
+import React, {Component} from "react";
 import axios from "axios";
 import "./App.css";
 import Recipe from "./Recipe";
+import Calculator from "./Calculator";
 
 class SearchBar extends Component{
     constructor(props){
         super(props);
         this.state = {
             value: '',
-            recipesList: []
+            recipesList: [],
+            calcVisible: false,
+            savedRecipes: []
         };
         this.getRecipes = this.getRecipes.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.hideCalculator = this.hideCalculator.bind(this);
         this.render = this.render.bind(this);
     }
     
@@ -29,11 +33,23 @@ class SearchBar extends Component{
         })
     }
 
+    getSavedRecipes = async () => {
+        axios.get("http://localhost:9000/api/").then(response => {
+            this.setState({
+                savedRecipes: response.data
+            });
+            console.log(this.state.savedRecipes);
+        });
+    }
+
     handleSubmit(event) {
         this.getRecipes();
         event.preventDefault();
     }
 
+    hideCalculator(){
+        this.setState({calcVisible: false});
+    }
     render() {
         return (
             <div>
@@ -43,7 +59,13 @@ class SearchBar extends Component{
                         Search
                     </button>
                 </form>
+                <button onClick={() => {
+                    this.getSavedRecipes(); 
+                    this.setState({calcVisible: true});}}>
+                        Open calculator
+                </button>
                 <div className="Recipes">
+                <Calculator visible={this.state.calcVisible} setVisible={this.hideCalculator} recipes={this.state.savedRecipes}/>
                 {this.state.recipesList.map(recipe => (
                     <Recipe 
                         label={recipe.recipe.label}
@@ -56,6 +78,7 @@ class SearchBar extends Component{
                 </div>
             </div>
     )
+    //добавить футер и доделать хедер, сделать калькулятор
     }
 }
 
