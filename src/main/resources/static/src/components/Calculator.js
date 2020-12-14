@@ -12,6 +12,7 @@ class Calculator extends Component{
         this.render = this.render.bind(this);
     }
 
+
     render(){
     return(
         <div className={this.props.visible ? "Calculator Active" : "Calculator"} onClick={() => this.props.setVisible()}>
@@ -23,8 +24,12 @@ class Calculator extends Component{
                             imageSource={recipe.imageSource}
                             id={recipe.id}
                             foodEnergy={recipe.foodEnergy}
+                            delRecipe={this.props.delRecipe}
                     />
                 ))}
+                <form>
+                    <button type="submit">Get total calories</button>
+                </form>
             </div>
         </div>
     )

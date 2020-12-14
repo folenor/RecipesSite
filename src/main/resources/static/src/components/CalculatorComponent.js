@@ -13,6 +13,12 @@ class CalculatorComponent extends Component{
         this.render = this.render.bind(this);
     }
 
+    componentDidMount(){
+        axios.post(`http://localhost:9000/api/${this.props.id}/${this.state.grams}`, {}).then(response =>{
+            console.log(response);
+        })
+    }
+
     handleChange(event){
         this.setState({
             grams: event.target.value
@@ -37,6 +43,11 @@ class CalculatorComponent extends Component{
                         <button type="submit">
                             ✓
                         </button>
+                        <button onClick={e => {this.props.delRecipe(this.props.id, e);
+                                            e.preventDefault();
+                        }}>
+                            ✘
+                    </button>
                     </form>
                 </div>
                 <p className="Calc_data">Calories per {this.state.grams}g: {this.props.foodEnergy * this.state.grams / 100}</p>

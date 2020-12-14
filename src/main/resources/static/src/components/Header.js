@@ -4,7 +4,7 @@ import "./App.css";
 const Header = () => {
     return (
         <div className="Header">
-            <p>Recepies site</p>
+            <div className="Header__text">Recepies site</div>
         </div>
     )
 }
