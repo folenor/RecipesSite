@@ -6,12 +6,13 @@ class CalculatorComponent extends Component{
     constructor(props){
         super(props);
         this.state ={
-            grams: 100
+            grams: 0
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.render = this.render.bind(this);
     }
+    
 
     componentDidMount(){
         axios.post(`http://localhost:9000/api/${this.props.id}/${this.state.grams}`, {}).then(response =>{

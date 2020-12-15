@@ -25,7 +25,9 @@ class Calculator extends Component{
         });
     }
 
-    componentDidUpdate
+    componentDidUpdate = async () =>{
+        this.getSavedRecipes();
+    }
 
     componentDidMount = async () => {
         axios.get("http://localhost:9000/api/").then(response => {
