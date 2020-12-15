@@ -8,12 +8,25 @@ body{
 }
 
 .Header{
+    display: flex;
+    height: 40px;
+    justify-content: flex-start;
     font-family: Lobster, monospace;
     font-size: 20px;
-    height: 30px;
-    font-size: large;
+    background-color: black;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+.Header__text{
+    font-size: 30px;
+    background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+    background-size: 100%;
+    background-repeat: repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
     display: flex;
-    justify-content: center;
 }
 .search-form{
     min-height: 10vh;

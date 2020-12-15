@@ -18,6 +18,7 @@ class SearchBar extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
         this.hideCalculator = this.hideCalculator.bind(this);
         this.render = this.render.bind(this);
+        this.deleteRecipe = this.deleteRecipe.bind(this);
     }
     
 
@@ -47,6 +48,18 @@ class SearchBar extends Component{
         event.preventDefault();
     }
 
+    deleteRecipe = async (id, event) => {
+        axios.delete(`http://localhost:9000/api/${id}`).then(response =>{
+                                 console.log(response);
+                                 this.getSavedRecipes();
+        });
+        this.setState({
+            savedRecipes: this.state.savedRecipes.splice(id,1)
+        })
+
+        event.preventDefault();
+    }
+
     hideCalculator(){
         this.setState({calcVisible: false});
     }
@@ -65,7 +78,11 @@ class SearchBar extends Component{
                         Open calculator
                 </button>
                 <div className="Recipes">
-                <Calculator visible={this.state.calcVisible} setVisible={this.hideCalculator} recipes={this.state.savedRecipes}/>
+                <Calculator visible={this.state.calcVisible}
+                            setVisible={this.hideCalculator}
+                            recipes={this.state.savedRecipes} 
+                            delRecipe={this.deleteRecipe}
+                    />
                 {this.state.recipesList.map(recipe => (
                     <Recipe 
                         label={recipe.recipe.label}

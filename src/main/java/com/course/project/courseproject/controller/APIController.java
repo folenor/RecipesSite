@@ -43,12 +43,20 @@ public class APIController {
         return Recipes.findById(id);
     }
 
+    @DeleteMapping("{id}")
+    public Optional<Recipe> deleteFromDB(@PathVariable("id") Long id){
+        Optional<Recipe> rec = Recipes.findById(id);
+        selectedRecipes.remove(rec);
+        Recipes.deleteById(id);
+        return rec;
+    }
+
     @GetMapping("{product}")
     public String searchRecipes(@PathVariable("product") String product) throws IOException {
         System.out.println(product);
         product = product.replace(" ", "+");
         System.out.println(product);
-        URL url = new URL(String.format("https://api.edamam.com/search?q=%s&app_id=%s&app_key=%s", product, AppID, AppKey));
+        URL url = new URL(String.format("https://api.edamam.com/search?q=%s&ingr=25&app_id=%s&app_key=%s", product, AppID, AppKey));
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-Type", "application/json");
