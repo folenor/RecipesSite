@@ -7,28 +7,82 @@ class Calculator extends Component{
     constructor(props){
         super(props);
         this.state = {
+            totalCalories: 0,
             recipes: []
         }
         this.render = this.render.bind(this);
+        this.getTotalCalories = this.getTotalCalories.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
+        this.deleteRecipe = this.deleteRecipe.bind(this);
+    }
+
+    getSavedRecipes = async () => {
+        axios.get("http://localhost:9000/api/").then(response => {
+            this.setState({
+                recipes: response.data
+            });
+            console.log(this.state.savedRecipes);
+        });
+    }
+
+    componentDidUpdate = async () =>{
+        this.getSavedRecipes();
+    }
+
+    componentDidMount = async () => {
+        axios.get("http://localhost:9000/api/").then(response => {
+            this.setState({
+                recipes: response.data
+            });
+            console.log(this.state.savedRecipes);
+        });
+        axios.get("http://localhost:9000/api/total/calories").then(response =>{
+            this.setState({
+                totalCalories: response.data
+            });
+        });
+    }
+
+    getTotalCalories = async (e) => {
+        axios.get("http://localhost:9000/api/total/calories").then(response =>{
+            this.setState({
+                totalCalories: response.data
+            });
+        });
+        e.preventDefault();
+    }
+
+    deleteRecipe = async (id, event) => {
+        axios.delete(`http://localhost:9000/api/${id}`).then(response =>{
+                                 console.log(response);
+                                 this.getSavedRecipes();
+                                 this.getTotalCalories();
+        });
+        this.setState({
+            recipes: this.state.recipes.splice(id,1)
+        })
+
+        event.preventDefault();
     }
 
 
     render(){
     return(
-        <div className={this.props.visible ? "Calculator Active" : "Calculator"} onClick={() => this.props.setVisible()}>
+        <div className={this.props.visible ? "Calculator Active" : "Calculator"} onClick={() => this.props.setVisible(false)}>
             <div className={this.props.visible ? "Calculator__content Active" : "Calculator__content"} onClick={e => e.stopPropagation()}>
                 <h2 className="Calculator__header">Calculator</h2>
-                {this.props.recipes.map(recipe => (
+                {this.state.recipes.map(recipe => (
                     <CalculatorComponent 
                             name={recipe.name}
                             imageSource={recipe.imageSource}
                             id={recipe.id}
                             foodEnergy={recipe.foodEnergy}
-                            delRecipe={this.props.delRecipe}
+                            delRecipe={this.deleteRecipe}
                     />
                 ))}
-                <form>
-                    <button type="submit">Get total calories</button>
+                <h5 className="Calculator__header">Total calories: {this.state.totalCalories}</h5>
+                <form className="Calculator__header" onSubmit={this.getTotalCalories}>
+                    <button className="Green_button" type="submit">Get total calories</button>
                 </form>
             </div>
         </div>

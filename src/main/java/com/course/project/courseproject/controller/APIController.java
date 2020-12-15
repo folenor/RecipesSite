@@ -21,41 +21,56 @@ public class APIController {
     private final RecipeRepository Recipes;
     final String AppID = "ae26ec97";
     final String AppKey = "ac9dd4d455e484d9ab5437b10b1b5c7c";
-    private final Map<Optional<Recipe>, Double> selectedRecipes = new HashMap<Optional<Recipe>, Double>();
+    private final Map<Long, Double> selectedRecipes = new HashMap<Long, Double>();
 
     @Autowired
     public APIController(RecipeRepository repo){
         this.Recipes = repo;
     }
+
     @GetMapping
     public List<Recipe> getSavedRecipes(){
         return Recipes.findAll();
     }
 
+    @GetMapping("{total}/{calories}")
+    public Double getTotalCalories(){
+        Double res = 0.0;
+        for(Map.Entry<Long, Double> pair : selectedRecipes.entrySet()){
+            res += Double.parseDouble(Recipes.findById(pair.getKey()).get().getFoodEnergy()) * pair.getValue() / 100;
+        }
+        return res;
+    }
+
     @PostMapping
     public Recipe saveRecipe(@RequestBody Recipe recipe){
-        return Recipes.save(recipe);
+        Recipes.save(recipe);
+        return recipe;
     }
+
+
     @PostMapping("{id}/{grams}")
     public Optional<Recipe> acceptGrams(@PathVariable("id") Long id, @PathVariable("grams") Double grams){
-        System.out.println(grams);
-        selectedRecipes.put(Recipes.findById(id), grams);
+        if(selectedRecipes.containsKey(id)){
+            selectedRecipes.replace(id, grams);
+        }
+        else{
+            selectedRecipes.put(id, grams);
+        }
         return Recipes.findById(id);
     }
 
     @DeleteMapping("{id}")
-    public Optional<Recipe> deleteFromDB(@PathVariable("id") Long id){
-        Optional<Recipe> rec = Recipes.findById(id);
-        selectedRecipes.remove(rec);
+    public Long deleteFromDB(@PathVariable("id") Long id){
+        selectedRecipes.remove(id);
+        selectedRecipes.forEach((k, v) -> System.out.println(k));
         Recipes.deleteById(id);
-        return rec;
+        return id;
     }
 
     @GetMapping("{product}")
     public String searchRecipes(@PathVariable("product") String product) throws IOException {
-        System.out.println(product);
         product = product.replace(" ", "+");
-        System.out.println(product);
         URL url = new URL(String.format("https://api.edamam.com/search?q=%s&ingr=25&app_id=%s&app_key=%s", product, AppID, AppKey));
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");

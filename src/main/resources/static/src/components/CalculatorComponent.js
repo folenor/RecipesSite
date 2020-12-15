@@ -6,12 +6,13 @@ class CalculatorComponent extends Component{
     constructor(props){
         super(props);
         this.state ={
-            grams: 100
+            grams: 0
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.render = this.render.bind(this);
     }
+    
 
     componentDidMount(){
         axios.post(`http://localhost:9000/api/${this.props.id}/${this.state.grams}`, {}).then(response =>{
@@ -40,10 +41,10 @@ class CalculatorComponent extends Component{
                     <img className="Calculator__image" src={this.props.imageSource}/>
                     <form className="Calc_data" onSubmit={this.handleSubmit}>
                         <input type="text" value={this.state.grams} onChange={this.handleChange} placeholder="please enter the number of grams"/>
-                        <button type="submit">
+                        <button className="Green_button" type="submit">
                             ✓
                         </button>
-                        <button onClick={e => {this.props.delRecipe(this.props.id, e);
+                        <button className="Red_button" onClick={e => {this.props.delRecipe(this.props.id, e);
                                             e.preventDefault();
                         }}>
                             ✘

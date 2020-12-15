@@ -10,7 +10,7 @@ class SearchBar extends Component{
         this.state = {
             value: '',
             recipesList: [],
-            calcVisible: false,
+            calcVisible: props.calc,
             savedRecipes: []
         };
         this.getRecipes = this.getRecipes.bind(this);
@@ -19,6 +19,7 @@ class SearchBar extends Component{
         this.hideCalculator = this.hideCalculator.bind(this);
         this.render = this.render.bind(this);
         this.deleteRecipe = this.deleteRecipe.bind(this);
+        this.getSavedRecipes(); 
     }
     
 
@@ -72,11 +73,6 @@ class SearchBar extends Component{
                         Search
                     </button>
                 </form>
-                <button onClick={() => {
-                    this.getSavedRecipes(); 
-                    this.setState({calcVisible: true});}}>
-                        Open calculator
-                </button>
                 <div className="Recipes">
                 <Calculator visible={this.state.calcVisible}
                             setVisible={this.hideCalculator}
