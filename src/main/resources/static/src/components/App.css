@@ -9,23 +9,58 @@ body{
 
 .Header{
     display: flex;
-    height: 40px;
+    height: 60px;
     justify-content: flex-start;
+    align-items: center;
+    font-size: 1.2rem;
     font-family: Lobster, monospace;
     font-size: 20px;
     background-color: black;
     padding-left: 10px;
     padding-top: 5px;
 }
+
+.Nav-menu{
+    display: grid;
+    color: #eebaac;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 25px;
+    list-style: none;
+    text-align: end;
+    width: 89vw;
+    justify-content: end;
+}
+
+.Nav-link{
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.Nav-link:hover{
+    background-color: rgb(65, 64, 64);
+    border-radius: 4px;
+    transition: all 0.2s ease-out;
+}
+.Nav-Anchor{
+    color: #eebaac;
+    text-decoration: none;
+}
+.Nav-button{
+    padding: 25px 5px;
+    font-size: 1.2rem;
+    font-family: Lobster, monospace;
+    background-color: black;
+    border: none;
+    color: #eebaac;
+}
+
+
+.Anchor{
+    text-decoration: none;
+}
 .Header__text{
     font-size: 30px;
-    background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
-    background-size: 100%;
-    background-repeat: repeat;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -moz-background-clip: text;
-    -moz-text-fill-color: transparent;
+    color: #eebaac;
     display: flex;
 }
 .search-form{
@@ -39,7 +74,7 @@ body{
     padding: 10px;
 }
 .Button{
-    background: #f1a38d;
+    background: #FE5F55;
     border: none;
     padding: 10px 20px;
     color: black;
@@ -105,9 +140,23 @@ body{
 }
 .Calc_data{
     display: flex;
+    text-align: center;
+    flex-wrap: wrap;
     justify-content: center;
 }
 .Calculator__header{
     display: flex;
     justify-content: center;
+}
+.Red_button{
+    background: #FE5F55;
+    border: 15px;
+    padding: 2px 4px;
+    color: black;
+}
+.Green_button{
+    background: #139675;
+    border: 15px;
+    padding: 2px 4px;
+    color: black;
 }
