@@ -6,6 +6,12 @@ body{
     min-height: 100vh;
     background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
 }
+.About{
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: blanchedalmond;
+}
 
 .Header{
     display: flex;
