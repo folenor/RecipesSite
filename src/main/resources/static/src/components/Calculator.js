@@ -13,6 +13,7 @@ class Calculator extends Component{
         this.render = this.render.bind(this);
         this.getTotalCalories = this.getTotalCalories.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.componentDidUpdate = this.componentDidUpdate.bind(this);
         this.deleteRecipe = this.deleteRecipe.bind(this);
     }
 
@@ -21,20 +22,16 @@ class Calculator extends Component{
             this.setState({
                 recipes: response.data
             });
-            console.log(this.state.savedRecipes);
         });
     }
 
-    componentDidUpdate = async () =>{
-        this.getSavedRecipes();
-    }
 
     componentDidMount = async () => {
         axios.get("http://localhost:9000/api/").then(response => {
             this.setState({
                 recipes: response.data
             });
-            console.log(this.state.savedRecipes);
+            console.log(this.state.recipes);
         });
         axios.get("http://localhost:9000/api/total/calories").then(response =>{
             this.setState({
@@ -43,13 +40,12 @@ class Calculator extends Component{
         });
     }
 
-    getTotalCalories = async (e) => {
+    getTotalCalories = async () => {
         axios.get("http://localhost:9000/api/total/calories").then(response =>{
             this.setState({
                 totalCalories: response.data
             });
         });
-        e.preventDefault();
     }
 
     deleteRecipe = async (id, event) => {
@@ -64,11 +60,15 @@ class Calculator extends Component{
 
         event.preventDefault();
     }
+    componentDidUpdate() {
+        this.getSavedRecipes();
+    }
 
 
     render(){
     return(
-        <div className={this.props.visible ? "Calculator Active" : "Calculator"} onClick={() => this.props.setVisible(false)}>
+        <div className={this.props.visible ? "Calculator Active" : "Calculator"} onClick={() => {this.props.setVisible(false); this.getSavedRecipes();
+        }}>
             <div className={this.props.visible ? "Calculator__content Active" : "Calculator__content"} onClick={e => e.stopPropagation()}>
                 <h2 className="Calculator__header">Calculator</h2>
                 {this.state.recipes.map(recipe => (
@@ -81,7 +81,7 @@ class Calculator extends Component{
                     />
                 ))}
                 <h5 className="Calculator__header">Total calories: {this.state.totalCalories}</h5>
-                <form className="Calculator__header" onSubmit={this.getTotalCalories}>
+                <form className="Calculator__header" onSubmit={e => {this.getTotalCalories; e.preventDefault();}}>
                     <button className="Green_button" type="submit">Get total calories</button>
                 </form>
             </div>

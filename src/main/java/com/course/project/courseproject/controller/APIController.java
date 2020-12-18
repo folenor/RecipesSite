@@ -37,7 +37,9 @@ public class APIController {
     public Double getTotalCalories(){
         Double res = 0.0;
         for(Map.Entry<Long, Double> pair : selectedRecipes.entrySet()){
-            res += Double.parseDouble(Recipes.findById(pair.getKey()).get().getFoodEnergy()) * pair.getValue() / 100;
+            if(Recipes.findById(pair.getKey()).isPresent()) {
+                res += Double.parseDouble(Recipes.findById(pair.getKey()).get().getFoodEnergy()) * pair.getValue() / 100;
+            }
         }
         return res;
     }

@@ -10,8 +10,6 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/")
                 .setViewName("forward:/index.html");
-        registry.addViewController("/calculator")
-                .setViewName("forward:/index.html");
         registry.addViewController("/about")
                 .setViewName("forward:/index.html");
     }

@@ -16,7 +16,6 @@ class CalculatorComponent extends Component{
 
     componentDidMount(){
         axios.post(`http://localhost:9000/api/${this.props.id}/${this.state.grams}`, {}).then(response =>{
-            console.log(response);
         })
     }
 
@@ -45,7 +44,6 @@ class CalculatorComponent extends Component{
                             ✓
                         </button>
                         <button className="Red_button" onClick={e => {this.props.delRecipe(this.props.id, e);
-                                            e.preventDefault();
                         }}>
                             ✘
                     </button>

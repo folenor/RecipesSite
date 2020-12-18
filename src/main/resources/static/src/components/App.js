@@ -5,29 +5,33 @@ import SearchBar from "./SearchBar";
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    Link
 } from "react-router-dom";
-import Calculator from "./Calculator";
 import axios from "axios";
 import "./App.css";
+import About from "./About";
 
 const App = () => {
     const [calcVisible, setCalcVisible] = useState(true);
 
 
     return (
+        //Если поставить сначала обработчик /, а потом /about, то всегда будет срабатывать страница /
+        //Из-за странного алгоритма внутри самого react-router-dom
+        <Router>
         <div className="App">
-            <Router>
             <Header />
-            <SearchBar/>
-            <Switch>
-                <Route path="/calculator">
-                    <Calculator visible={calcVisible}
-                                setVisible={setCalcVisible}/>
-                </Route>
-            </Switch>
-            </Router>
+                <Switch>
+                    <Route path="/about">
+                        <About />
+                    </Route>
+                    <Route path="/">
+                        <SearchBar />
+                    </Route>
+                </Switch>
         </div>
+        </Router>
     );
 }
 
