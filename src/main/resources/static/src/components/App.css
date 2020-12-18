@@ -4,13 +4,39 @@ body{
 
 .App{
     min-height: 100vh;
-    background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
 }
 .About{
     display: flex;
     justify-content: center;
+    background-color: rgb(255, 255, 255);
     min-height: 100vh;
-    background-color: blanchedalmond;
+}
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+.Image-block{
+    display: flex;
+    justify-content: center;
+}
+
+.About_header{
+    text-align: center;
+    color: #46bd79;
+}
+.About_content{
+    font-size: 2.0rem;
+    min-width: 60vw;
+}
+
+.Article_content{
+    display: flex;
+    flex-wrap: wrap;
+    font-family: 'Noto serif', serif;
+    justify-content: center;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 .Header{
@@ -21,14 +47,14 @@ body{
     font-size: 1.2rem;
     font-family: Lobster, monospace;
     font-size: 20px;
-    background-color: black;
+    background-color: rgb(32, 35, 42);
     padding-left: 10px;
     padding-top: 5px;
 }
 
 .Nav-menu{
     display: grid;
-    color: #eebaac;
+    color: #5EF2C8;
     grid-template-columns: repeat(3, auto);
     grid-gap: 25px;
     list-style: none;
@@ -48,7 +74,7 @@ body{
     transition: all 0.2s ease-out;
 }
 .Nav-Anchor{
-    color: #eebaac;
+    color: #5EF2C8;
     text-decoration: none;
 }
 .Nav-button{
@@ -66,7 +92,7 @@ body{
 }
 .Header__text{
     font-size: 25px;
-    color: #eebaac;
+    color: #5EF2C8;
     display: flex;
 }
 .search-form{
@@ -80,7 +106,7 @@ body{
     padding: 10px;
 }
 .Button{
-    background: #FE5F55;
+    background: #27E839;
     border: none;
     padding: 10px 20px;
     color: black;
