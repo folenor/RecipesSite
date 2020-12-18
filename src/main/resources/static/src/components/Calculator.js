@@ -81,7 +81,7 @@ class Calculator extends Component{
                     />
                 ))}
                 <h5 className="Calculator__header">Total calories: {this.state.totalCalories}</h5>
-                <form className="Calculator__header" onSubmit={e => {this.getTotalCalories; e.preventDefault();}}>
+                <form className="Calculator__header" onSubmit={e => {this.getTotalCalories(); e.preventDefault();}}>
                     <button className="Green_button" type="submit">Get total calories</button>
                 </form>
             </div>
